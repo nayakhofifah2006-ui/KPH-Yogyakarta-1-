@@ -792,48 +792,194 @@ elif menu == "PES":
 
     st.divider()
 
-    st.subheader("Perbandingan Potensi Jasa Ekosistem")
+        st.subheader("Perbandingan Potensi Jasa Ekosistem")
 
-    jasa_df = pd.DataFrame({
-        "Jasa": [
-            "Karbon",
-            "Air",
-            "Ekowisata",
-            "Biodiversitas"
-        ],
-        "Potensi": [
-            90,
-            80,
-            70,
-            85
-        ]
-    })
+    # Menentukan potensi dasar sesuai jenis jasa yang dipilih
+
+    if jasa == "Penyimpanan Karbon":
+
+        dasar = {
+            "Karbon": 95,
+            "Air": 75,
+            "Ekowisata": 60,
+            "Biodiversitas": 90
+        }
+
+    elif jasa == "Penyedia Air":
+
+        dasar = {
+            "Karbon": 70,
+            "Air": 98,
+            "Ekowisata": 65,
+            "Biodiversitas": 80
+        }
+
+    elif jasa == "Ekowisata":
+
+        dasar = {
+            "Karbon": 65,
+            "Air": 75,
+            "Ekowisata": 98,
+            "Biodiversitas": 82
+        }
+
+    else:
+
+        dasar = {
+            "Karbon": 85,
+            "Air": 80,
+            "Ekowisata": 72,
+            "Biodiversitas": 98
+        }
+
+    # Pengaruh luas hutan terhadap nilai jasa
+
+    skala = luas / 5000
+
+    karbon = round(dasar["Karbon"] * skala, 1)
+    air = round(dasar["Air"] * skala, 1)
+    wisata = round(dasar["Ekowisata"] * skala, 1)
+    biodiversitas = round(dasar["Biodiversitas"] * skala, 1)
 
     fig2 = go.Figure()
 
+    # Radar maksimum (abu-abu)
+
     fig2.add_trace(
         go.Scatterpolar(
-            r=jasa_df["Potensi"],
-            theta=jasa_df["Jasa"],
+            r=[100, 100, 100, 100],
+            theta=[
+                "Karbon",
+                "Air",
+                "Ekowisata",
+                "Biodiversitas"
+            ],
+            fill=None,
+            line=dict(color="lightgray", dash="dot"),
+            name="Potensi Maksimum"
+        )
+    )
+
+    # Radar hasil simulasi
+
+    fig2.add_trace(
+        go.Scatterpolar(
+            r=[
+                karbon,
+                air,
+                wisata,
+                biodiversitas
+            ],
+            theta=[
+                "Karbon",
+                "Air",
+                "Ekowisata",
+                "Biodiversitas"
+            ],
             fill="toself",
-            name="Potensi"
+            name="Hasil Simulasi"
         )
     )
 
     fig2.update_layout(
+
         polar=dict(
+
             radialaxis=dict(
+
                 visible=True,
-                range=[0, 100]
+
+                range=[0,100]
+
             )
+
         ),
-        title="Potensi Jasa Ekosistem"
+
+        title="Perbandingan Potensi Jasa Ekosistem"
+
     )
 
     st.plotly_chart(
         fig2,
         use_container_width=True
     )
+
+    # KPI
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric(
+        "Karbon",
+        f"{karbon}"
+    )
+
+    col2.metric(
+        "Air",
+        f"{air}"
+    )
+
+    col3.metric(
+        "Ekowisata",
+        f"{wisata}"
+    )
+
+    col4.metric(
+        "Biodiversitas",
+        f"{biodiversitas}"
+    )
+
+    # Indeks
+
+    indeks = (karbon + air + wisata + biodiversitas) / 4
+
+    fig3 = go.Figure(go.Indicator(
+
+        mode="gauge+number",
+
+        value=indeks,
+
+        title={"text":"Indeks Potensi PES"},
+
+        gauge={
+
+            "axis":{"range":[0,100]},
+
+            "bar":{"color":"green"},
+
+            "steps":[
+
+                {"range":[0,40],"color":"#f4cccc"},
+
+                {"range":[40,70],"color":"#ffe599"},
+
+                {"range":[70,100],"color":"#b6d7a8"}
+
+            ]
+
+        }
+
+    ))
+
+    st.plotly_chart(
+        fig3,
+        use_container_width=True
+    )
+
+    if indeks >= 85:
+
+        st.success("Potensi jasa ekosistem sangat tinggi.")
+
+    elif indeks >= 70:
+
+        st.info("Potensi jasa ekosistem tinggi.")
+
+    elif indeks >= 50:
+
+        st.warning("Potensi jasa ekosistem sedang.")
+
+    else:
+
+        st.error("Potensi jasa ekosistem rendah.")
 
 # ==========================================
 # HHBK
