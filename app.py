@@ -1006,36 +1006,36 @@ elif menu == "HHBK":
         ]
     )
 
-   if komoditas == "Madu Hutan":
-
+    if komoditas == "Madu Hutan":
+    
     produksi_ha = 20
     harga = 120000
     satuan = "kg"
-
+    
     radar = [98, 75, 92, 65]
-
-   elif komoditas == "Getah Akasia":
-
+    
+    elif komoditas == "Getah Akasia":
+    
     produksi_ha = 450
     harga = 9000
     satuan = "kg"
-
+    
     radar = [60, 95, 80, 72]
-
-   elif komoditas == "Minyak Kayu Putih":
-
+    
+    elif komoditas == "Minyak Kayu Putih":
+    
     produksi_ha = 18
     harga = 250000
     satuan = "Liter"
-
+    
     radar = [82, 70, 65, 98]
-
-   else:
-
+    
+    else:
+    
     produksi_ha = 200
     harga = 15000
     satuan = "Batang"
-
+    
     radar = [72, 98, 88, 60]
 
     luas = st.slider(
