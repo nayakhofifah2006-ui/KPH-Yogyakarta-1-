@@ -970,43 +970,240 @@ elif menu == "PES":
 
 elif menu == "HHBK":
 
-    hhbk = pd.read_csv("hhbk.csv")
-
-    st.header("Hasil Hutan Bukan Kayu")
-
-    st.dataframe(hhbk)
-
-    fig = px.pie(
-        hhbk,
-        names="Komoditas",
-        values="Nilai",
-        title="Kontribusi HHBK"
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
+    st.header("Hasil Hutan Bukan Kayu (HHBK)")
 
     st.write("""
-    HHBK memberikan pendapatan masyarakat tanpa melakukan penebangan
-    pohon sehingga mendukung pengelolaan hutan berkelanjutan.
+    Hasil Hutan Bukan Kayu (HHBK) merupakan hasil hutan selain kayu
+    yang dapat dimanfaatkan secara berkelanjutan tanpa menebang pohon.
+    Dashboard ini menyajikan simulasi potensi ekonomi beberapa
+    komoditas HHBK di KPH Yogyakarta.
     """)
 
-    harga = st.number_input(
-        "Harga Produk (Rp)",
-        10000,
-        1000000,
-        50000
+    # ======================
+    # KPI
+    # ======================
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric("Komoditas", "4")
+    col2.metric("Nilai HHBK", "Rp15 Miliar")
+    col3.metric("Kontribusi TEV", "12,5%")
+    col4.metric("Status", "Berkelanjutan")
+
+    st.divider()
+
+    # ======================
+    # PILIH KOMODITAS
+    # ======================
+
+    komoditas = st.selectbox(
+        "Pilih Komoditas HHBK",
+        [
+            "Madu Hutan",
+            "Getah Akasia",
+            "Minyak Kayu Putih",
+            "Bambu"
+        ]
     )
 
-    produksi = st.number_input(
-        "Produksi",
-        1,
-        10000,
+    if komoditas == "Madu Hutan":
+
+        produksi_ha = 20
+        harga = 120000
+        satuan = "kg"
+
+        radar = [95,90,85,88]
+
+    elif komoditas == "Getah Akasia":
+
+        produksi_ha = 450
+        harga = 9000
+        satuan = "kg"
+
+        radar = [90,80,82,75]
+
+    elif komoditas == "Minyak Kayu Putih":
+
+        produksi_ha = 18
+        harga = 250000
+        satuan = "Liter"
+
+        radar = [88,92,80,90]
+
+    else:
+
+        produksi_ha = 200
+        harga = 15000
+        satuan = "Batang"
+
+        radar = [75,95,90,80]
+
+    luas = st.slider(
+        "Luas Pemanfaatan (Ha)",
+        10,
+        500,
         100
     )
 
-    pendapatan = harga * produksi
+    produksi = produksi_ha * luas
 
-    st.metric(
-        "Estimasi Pendapatan",
+    pendapatan = produksi * harga
+
+    # ======================
+    # KPI HASIL
+    # ======================
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric(
+        "Produksi",
+        f"{produksi:,.0f} {satuan}"
+    )
+
+    col2.metric(
+        "Harga",
+        f"Rp {harga:,.0f}/{satuan}"
+    )
+
+    col3.metric(
+        "Pendapatan",
         f"Rp {pendapatan:,.0f}"
     )
+
+    st.divider()
+
+    # ======================
+    # GRAFIK
+    # ======================
+
+    simulasi = pd.DataFrame({
+
+        "Komponen":[
+            "Produksi",
+            "Harga (Ribu)",
+            "Pendapatan (Juta)"
+        ],
+
+        "Nilai":[
+            produksi,
+            harga/1000,
+            pendapatan/1000000
+        ]
+
+    })
+
+    fig = px.bar(
+        simulasi,
+        x="Komponen",
+        y="Nilai",
+        color="Komponen",
+        title=f"Simulasi Ekonomi {komoditas}"
+    )
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True
+    )
+
+    # ======================
+    # RADAR
+    # ======================
+
+    fig2 = go.Figure()
+
+    fig2.add_trace(
+        go.Scatterpolar(
+            r=radar,
+            theta=[
+                "Nilai Ekonomi",
+                "Keberlanjutan",
+                "Produksi",
+                "Permintaan"
+            ],
+            fill="toself",
+            name=komoditas
+        )
+    )
+
+    fig2.update_layout(
+
+        polar=dict(
+
+            radialaxis=dict(
+
+                visible=True,
+
+                range=[0,100]
+
+            )
+
+        ),
+
+        title="Potensi Komoditas HHBK"
+
+    )
+
+    st.plotly_chart(
+        fig2,
+        use_container_width=True
+    )
+
+    # ======================
+    # GAUGE
+    # ======================
+
+    indeks = sum(radar)/4
+
+    fig3 = go.Figure(
+        go.Indicator(
+
+            mode="gauge+number",
+
+            value=indeks,
+
+            title={"text":"Indeks Potensi HHBK"},
+
+            gauge={
+
+                "axis":{"range":[0,100]},
+
+                "steps":[
+
+                    {"range":[0,40],"color":"#f4cccc"},
+
+                    {"range":[40,70],"color":"#ffe599"},
+
+                    {"range":[70,100],"color":"#b6d7a8"}
+
+                ]
+
+            }
+
+        )
+    )
+
+    st.plotly_chart(
+        fig3,
+        use_container_width=True
+    )
+
+    # ======================
+    # INTERPRETASI
+    # ======================
+
+    st.subheader("Interpretasi Ekonomi")
+
+    st.info(f"""
+    Dengan luas pemanfaatan **{luas} hektar**, komoditas
+    **{komoditas}** menghasilkan sekitar
+    **{produksi:,.0f} {satuan}**.
+
+    Dengan harga rata-rata
+    **Rp {harga:,.0f}/{satuan}**, maka nilai ekonomi
+    yang dihasilkan mencapai
+    **Rp {pendapatan:,.0f}**.
+
+    Pemanfaatan HHBK memberikan manfaat ekonomi bagi
+    masyarakat tanpa mengurangi tutupan hutan sehingga
+    mendukung pengelolaan hutan secara berkelanjutan.
+    """)
