@@ -790,58 +790,54 @@ elif menu == "PES":
         flora dan fauna serta menjaga stabilitas ekosistem.
         """)
 
-    st.divider()
+        st.divider()
 
     st.subheader("Perbandingan Potensi Jasa Ekosistem")
-
-    # Menentukan potensi dasar sesuai jenis jasa yang dipilih
 
     if jasa == "Penyimpanan Karbon":
 
         dasar = {
-            "Karbon": 95,
-            "Air": 75,
-            "Ekowisata": 60,
-            "Biodiversitas": 90
+            "Karbon":95,
+            "Air":75,
+            "Ekowisata":60,
+            "Biodiversitas":90
         }
 
     elif jasa == "Penyedia Air":
 
         dasar = {
-            "Karbon": 70,
-            "Air": 98,
-            "Ekowisata": 65,
-            "Biodiversitas": 80
+            "Karbon":70,
+            "Air":98,
+            "Ekowisata":65,
+            "Biodiversitas":80
         }
 
     elif jasa == "Ekowisata":
 
         dasar = {
-            "Karbon": 65,
-            "Air": 75,
-            "Ekowisata": 98,
-            "Biodiversitas": 82
+            "Karbon":65,
+            "Air":75,
+            "Ekowisata":98,
+            "Biodiversitas":82
         }
 
     else:
 
         dasar = {
-            "Karbon": 85,
-            "Air": 80,
-            "Ekowisata": 72,
-            "Biodiversitas": 98
+            "Karbon":85,
+            "Air":80,
+            "Ekowisata":72,
+            "Biodiversitas":98
         }
-
-    # Pengaruh luas hutan terhadap nilai jasa
 
     skala = luas / 5000
 
-    karbon = round(dasar["Karbon"] * skala, 1)
-    air = round(dasar["Air"] * skala, 1)
-    wisata = round(dasar["Ekowisata"] * skala, 1)
-    biodiversitas = round(dasar["Biodiversitas"] * skala, 1)
+    karbon = round(dasar["Karbon"] * skala,1)
+    air = round(dasar["Air"] * skala,1)
+    wisata = round(dasar["Ekowisata"] * skala,1)
+    biodiversitas = round(dasar["Biodiversitas"] * skala,1)
 
-        fig2 = go.Figure()
+    fig2 = go.Figure()
 
     # Radar Potensi Maksimum
     fig2.add_trace(
