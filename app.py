@@ -1007,34 +1007,32 @@ elif menu == "HHBK":
     )
 
     if komoditas == "Madu Hutan":
-    
-    produksi_ha = 20
-    harga = 120000
-    satuan = "kg"
-    
-    radar = [98, 75, 92, 65]
-    
+
+        produksi_ha = 20
+        harga = 120000
+        satuan = "kg"
+        radar = [98, 75, 92, 65]
+
     elif komoditas == "Getah Akasia":
-    
-    produksi_ha = 450
-    harga = 9000
-    satuan = "kg"
-    
-    radar = [60, 95, 80, 72]
-    
+
+        produksi_ha = 450
+        harga = 9000
+        satuan = "kg"
+        radar = [60, 95, 80, 72]
+
     elif komoditas == "Minyak Kayu Putih":
-    
-    produksi_ha = 18
-    harga = 250000
-    satuan = "Liter"
-    
-    radar = [82, 70, 65, 98]
-    
+
+        produksi_ha = 18
+        harga = 250000
+        satuan = "Liter"
+        radar = [82, 70, 65, 98]
+
     else:
-    
-    produksi_ha = 200
-    harga = 15000
-    satuan = "Batang"
+
+        produksi_ha = 200
+        harga = 15000
+        satuan = "Batang"
+        radar = [72, 98, 88, 60]
     
     radar = [72, 98, 88, 60]
 
@@ -1109,57 +1107,53 @@ elif menu == "HHBK":
     # RADAR
     # ======================
 
-    fig2 = go.Figure()
+        fig2 = go.Figure()
 
-fig2.add_trace(
-    go.Scatterpolar(
-        r=[100,100,100,100,100],
-        theta=[
-            "Nilai Ekonomi",
-            "Keberlanjutan",
-            "Produksi",
-            "Permintaan",
-            "Nilai Ekonomi"
-        ],
-        line=dict(color="lightgray", dash="dot"),
-        name="Maksimum"
-    )
-)
-
-fig2.add_trace(
-    go.Scatterpolar(
-        r=radar + [radar[0]],
-        theta=[
-            "Nilai Ekonomi",
-            "Keberlanjutan",
-            "Produksi",
-            "Permintaan",
-            "Nilai Ekonomi"
-        ],
-        fill="toself",
-        name=komoditas
-    )
-)
-
-fig2.update_layout(
-
-    polar=dict(
-        radialaxis=dict(
-            visible=True,
-            range=[0,100]
+    fig2.add_trace(
+        go.Scatterpolar(
+            r=[100,100,100,100,100],
+            theta=[
+                "Nilai Ekonomi",
+                "Keberlanjutan",
+                "Produksi",
+                "Permintaan",
+                "Nilai Ekonomi"
+            ],
+            line=dict(color="lightgray", dash="dot"),
+            name="Maksimum"
         )
-    ),
+    )
 
-    showlegend=True,
+    fig2.add_trace(
+        go.Scatterpolar(
+            r=radar + [radar[0]],
+            theta=[
+                "Nilai Ekonomi",
+                "Keberlanjutan",
+                "Produksi",
+                "Permintaan",
+                "Nilai Ekonomi"
+            ],
+            fill="toself",
+            name=komoditas
+        )
+    )
 
-    title=f"Potensi {komoditas}"
+    fig2.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0,100]
+            )
+        ),
+        showlegend=True,
+        title=f"Potensi {komoditas}"
+    )
 
-)
-
-st.plotly_chart(
-    fig2,
-    use_container_width=True
-)
+    st.plotly_chart(
+        fig2,
+        use_container_width=True
+    )
 
     # ======================
     # GAUGE
