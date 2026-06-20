@@ -1008,35 +1008,35 @@ elif menu == "HHBK":
 
     if komoditas == "Madu Hutan":
 
-        produksi_ha = 20
-        harga = 120000
-        satuan = "kg"
+    produksi_ha = 20
+    harga = 120000
+    satuan = "kg"
 
-        radar = [95,90,85,88]
+    radar = [98, 75, 92, 65]
 
-    elif komoditas == "Getah Akasia":
+elif komoditas == "Getah Akasia":
 
-        produksi_ha = 450
-        harga = 9000
-        satuan = "kg"
+    produksi_ha = 450
+    harga = 9000
+    satuan = "kg"
 
-        radar = [90,80,82,75]
+    radar = [60, 95, 80, 72]
 
-    elif komoditas == "Minyak Kayu Putih":
+elif komoditas == "Minyak Kayu Putih":
 
-        produksi_ha = 18
-        harga = 250000
-        satuan = "Liter"
+    produksi_ha = 18
+    harga = 250000
+    satuan = "Liter"
 
-        radar = [88,92,80,90]
+    radar = [82, 70, 65, 98]
 
-    else:
+else:
 
-        produksi_ha = 200
-        harga = 15000
-        satuan = "Batang"
+    produksi_ha = 200
+    harga = 15000
+    satuan = "Batang"
 
-        radar = [75,95,90,80]
+    radar = [72, 98, 88, 60]
 
     luas = st.slider(
         "Luas Pemanfaatan (Ha)",
@@ -1111,42 +1111,55 @@ elif menu == "HHBK":
 
     fig2 = go.Figure()
 
-    fig2.add_trace(
-        go.Scatterpolar(
-            r=radar,
-            theta=[
-                "Nilai Ekonomi",
-                "Keberlanjutan",
-                "Produksi",
-                "Permintaan"
-            ],
-            fill="toself",
-            name=komoditas
+fig2.add_trace(
+    go.Scatterpolar(
+        r=[100,100,100,100,100],
+        theta=[
+            "Nilai Ekonomi",
+            "Keberlanjutan",
+            "Produksi",
+            "Permintaan",
+            "Nilai Ekonomi"
+        ],
+        line=dict(color="lightgray", dash="dot"),
+        name="Maksimum"
+    )
+)
+
+fig2.add_trace(
+    go.Scatterpolar(
+        r=radar + [radar[0]],
+        theta=[
+            "Nilai Ekonomi",
+            "Keberlanjutan",
+            "Produksi",
+            "Permintaan",
+            "Nilai Ekonomi"
+        ],
+        fill="toself",
+        name=komoditas
+    )
+)
+
+fig2.update_layout(
+
+    polar=dict(
+        radialaxis=dict(
+            visible=True,
+            range=[0,100]
         )
-    )
+    ),
 
-    fig2.update_layout(
+    showlegend=True,
 
-        polar=dict(
+    title=f"Potensi {komoditas}"
 
-            radialaxis=dict(
+)
 
-                visible=True,
-
-                range=[0,100]
-
-            )
-
-        ),
-
-        title="Potensi Komoditas HHBK"
-
-    )
-
-    st.plotly_chart(
-        fig2,
-        use_container_width=True
-    )
+st.plotly_chart(
+    fig2,
+    use_container_width=True
+)
 
     # ======================
     # GAUGE
