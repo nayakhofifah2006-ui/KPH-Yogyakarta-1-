@@ -792,7 +792,7 @@ elif menu == "PES":
 
     st.divider()
 
-        st.subheader("Perbandingan Potensi Jasa Ekosistem")
+    st.subheader("Perbandingan Potensi Jasa Ekosistem")
 
     # Menentukan potensi dasar sesuai jenis jasa yang dipilih
 
@@ -841,10 +841,9 @@ elif menu == "PES":
     wisata = round(dasar["Ekowisata"] * skala, 1)
     biodiversitas = round(dasar["Biodiversitas"] * skala, 1)
 
-    fig2 = go.Figure()
+        fig2 = go.Figure()
 
-    # Radar maksimum (abu-abu)
-
+    # Radar Potensi Maksimum
     fig2.add_trace(
         go.Scatterpolar(
             r=[100, 100, 100, 100],
@@ -855,13 +854,11 @@ elif menu == "PES":
                 "Biodiversitas"
             ],
             fill=None,
-            line=dict(color="lightgray", dash="dot"),
             name="Potensi Maksimum"
         )
     )
 
-    # Radar hasil simulasi
-
+    # Radar Hasil Simulasi
     fig2.add_trace(
         go.Scatterpolar(
             r=[
@@ -882,27 +879,17 @@ elif menu == "PES":
     )
 
     fig2.update_layout(
-
         polar=dict(
-
             radialaxis=dict(
-
                 visible=True,
-
-                range=[0,100]
-
+                range=[0, 100]
             )
-
         ),
-
+        showlegend=True,
         title="Perbandingan Potensi Jasa Ekosistem"
-
     )
 
-    st.plotly_chart(
-        fig2,
-        use_container_width=True
-    )
+    st.plotly_chart(fig2, use_container_width=True)
 
     # KPI
 
