@@ -1104,58 +1104,6 @@ elif menu == "HHBK":
     )
 
     # ======================
-    # RADAR
-    # ======================
-
-    fig2 = go.Figure()
-
-    fig2.add_trace(
-        go.Scatterpolar(
-            r=[100, 100, 100, 100, 100],
-            theta=[
-                "Nilai Ekonomi",
-                "Keberlanjutan",
-                "Produksi",
-                "Permintaan",
-                "Nilai Ekonomi"
-            ],
-            line=dict(color="lightgray", dash="dot"),
-            name="Maksimum"
-        )
-    )
-
-    fig2.add_trace(
-        go.Scatterpolar(
-            r=radar + [radar[0]],
-            theta=[
-                "Nilai Ekonomi",
-                "Keberlanjutan",
-                "Produksi",
-                "Permintaan",
-                "Nilai Ekonomi"
-            ],
-            fill="toself",
-            name=komoditas
-        )
-    )
-
-    fig2.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True,
-                range=[0, 100]
-            )
-        ),
-        showlegend=True,
-        title=f"Potensi {komoditas}"
-    )
-
-    st.plotly_chart(
-        fig2,
-        use_container_width=True
-    )
-
-    # ======================
     # GAUGE
     # ======================
 
