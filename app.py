@@ -1107,11 +1107,11 @@ elif menu == "HHBK":
     # RADAR
     # ======================
 
-        fig2 = go.Figure()
+    fig2 = go.Figure()
 
     fig2.add_trace(
         go.Scatterpolar(
-            r=[100,100,100,100,100],
+            r=[100, 100, 100, 100, 100],
             theta=[
                 "Nilai Ekonomi",
                 "Keberlanjutan",
@@ -1143,7 +1143,7 @@ elif menu == "HHBK":
         polar=dict(
             radialaxis=dict(
                 visible=True,
-                range=[0,100]
+                range=[0, 100]
             )
         ),
         showlegend=True,
@@ -1159,33 +1159,21 @@ elif menu == "HHBK":
     # GAUGE
     # ======================
 
-    indeks = sum(radar)/4
+    indeks = sum(radar) / 4
 
     fig3 = go.Figure(
         go.Indicator(
-
             mode="gauge+number",
-
             value=indeks,
-
-            title={"text":"Indeks Potensi HHBK"},
-
+            title={"text": "Indeks Potensi HHBK"},
             gauge={
-
-                "axis":{"range":[0,100]},
-
-                "steps":[
-
-                    {"range":[0,40],"color":"#f4cccc"},
-
-                    {"range":[40,70],"color":"#ffe599"},
-
-                    {"range":[70,100],"color":"#b6d7a8"}
-
+                "axis": {"range": [0, 100]},
+                "steps": [
+                    {"range": [0, 40], "color": "#f4cccc"},
+                    {"range": [40, 70], "color": "#ffe599"},
+                    {"range": [70, 100], "color": "#b6d7a8"}
                 ]
-
             }
-
         )
     )
 
